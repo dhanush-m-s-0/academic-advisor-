@@ -290,6 +290,11 @@ function setWaiting(state) {
 // ── Markdown renderer (minimal) ───────────────────────────────
 function renderMarkdown(text) {
     if (!text) return '';
+    // Truncate extremely long inputs to prevent ReDoS
+    const MAX_LEN = 20000;
+    if (text.length > MAX_LEN) {
+        text = text.substring(0, MAX_LEN) + '…';
+    }
     return text
         // Escape HTML first to prevent XSS
         .replace(/&/g, '&amp;')

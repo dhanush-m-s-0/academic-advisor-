@@ -374,6 +374,8 @@ class SimpleHashEmbeddings(Embeddings):
         self.dim = dim
 
     def _embed(self, text: str) -> List[float]:
+        # MD5 is used here only as a fast non-cryptographic hash for embedding
+        # generation — not for any security-sensitive purpose.
         text = text.lower()[:2000]
         vec = [0.0] * self.dim
         for i in range(len(text) - 2):

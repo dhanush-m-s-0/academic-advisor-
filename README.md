@@ -66,13 +66,10 @@ Open [http://localhost:5001](http://localhost:5001) in your browser.
 
 ---
 
+## 🎓 Academic Advisor Agent v2
 
-AI-powered student advisor built with **LangChain + Pinecone + Claude 3.5 Sonnet**.
+AI-powered student advisor built with **LangChain + OpenRouter + ChromaDB**.
 Gives meaningful, context-aware answers on courses, careers, job market, higher studies, grades, wellness, and admin.
-
----
-
-## Folder structure
 
 ```
 academic_advisor_full/

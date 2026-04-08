@@ -6,10 +6,11 @@ from flask import Flask, render_template, request, jsonify, redirect, session
 from flask_cors import CORS
 from traffic_analyzer_agent import TrafficAnalyzerAgent
 import os
+import secrets
 from functools import wraps
 
 app = Flask(__name__)
-app.secret_key = 'traffic-analyzer-secret-key'
+app.secret_key = os.environ.get('TRAFFIC_SECRET_KEY', secrets.token_hex(32))
 CORS(app)
 
 # Initialize the agent once at startup
@@ -64,8 +65,8 @@ def chat():
             'role_color' : response['role_color'],
             'sources'    : response['sources'],
         })
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+    except Exception:
+        return jsonify({'error': 'An error occurred processing your request'}), 500
 
 
 @app.route('/api/profile', methods=['GET'])
@@ -82,8 +83,8 @@ def get_profile():
                 'interactions': len(profile.session_log),
             })
         return jsonify({'error': 'Profile not found'}), 404
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+    except Exception:
+        return jsonify({'error': 'An error occurred fetching the profile'}), 500
 
 
 @app.route('/api/report', methods=['GET'])
@@ -94,8 +95,8 @@ def get_report():
         user_id = session.get('user_id', 'guest')
         report  = agent.generate_session_report(user_id)
         return jsonify({'report': report})
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+    except Exception:
+        return jsonify({'error': 'An error occurred generating the report'}), 500
 
 
 @app.route('/api/login', methods=['POST'])
@@ -113,8 +114,8 @@ def api_login():
         session['user_name'] = user_name or f'User {user_id}'
 
         return jsonify({'success': True, 'redirect': '/dashboard'})
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+    except Exception:
+        return jsonify({'error': 'An error occurred during login'}), 500
 
 
 @app.route('/api/logout', methods=['POST'])
@@ -135,4 +136,5 @@ def get_user_info():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    debug = os.environ.get('FLASK_DEBUG', 'false').lower() == 'true'
+    app.run(debug=debug, port=5001)
