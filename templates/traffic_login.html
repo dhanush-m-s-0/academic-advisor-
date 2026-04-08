@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Analyzer — Login</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-box {
+            background: #1e2a3a;
+            padding: 50px 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            border: 1px solid #2d3e52;
+        }
+
+        .traffic-lights {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .light {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+        .light.red   { background: #e74c3c; box-shadow: 0 0 12px #e74c3c; }
+        .light.amber { background: #f39c12; box-shadow: 0 0 12px #f39c12; }
+        .light.green { background: #2ecc71; box-shadow: 0 0 12px #2ecc71; }
+
+        .login-box h1 {
+            color: #f0f4f8;
+            margin-bottom: 8px;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .login-box p.subtitle {
+            color: #7f8c8d;
+            margin-bottom: 36px;
+            font-size: 13px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #bdc3c7;
+            font-size: 13px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 11px 14px;
+            background: #253446;
+            border: 1px solid #2d3e52;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #f0f4f8;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-group input::placeholder { color: #5d6d7e; }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #2ecc71;
+            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.15);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s, transform 0.1s;
+            margin-top: 8px;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-primary:hover { opacity: 0.9; }
+        .btn-primary:active { transform: scale(0.99); }
+
+        .demo-note {
+            font-size: 12px;
+            color: #5d6d7e;
+            margin-top: 20px;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 13px;
+            margin-top: 10px;
+            display: none;
+            padding: 8px 12px;
+            background: rgba(231, 76, 60, 0.1);
+            border-radius: 6px;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .badge {
+            background: #253446;
+            color: #7f8c8d;
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            border: 1px solid #2d3e52;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <div class="traffic-lights">
+            <div class="light red"></div>
+            <div class="light amber"></div>
+            <div class="light green"></div>
+        </div>
+        <h1>Traffic Analyzer</h1>
+        <p class="subtitle">AI-powered traffic intelligence · Groq Llama 3.3 70B</p>
+
+        <div class="badge-row">
+            <span class="badge">🚦 Flow Analysis</span>
+            <span class="badge">🛣️ Route Planning</span>
+            <span class="badge">🚧 Safety</span>
+            <span class="badge">📊 Data</span>
+            <span class="badge">🏗️ Infrastructure</span>
+            <span class="badge">🌿 Environment</span>
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label>User ID / Email</label>
+                <input type="text" id="userId" placeholder="e.g. USER2024001" required>
+            </div>
+            <div class="form-group">
+                <label>Name (optional)</label>
+                <input type="text" id="userName" placeholder="Your name">
+            </div>
+            <button type="submit" class="btn-primary">🚀 Get Started</button>
+            <div class="error" id="errorMsg"></div>
+        </form>
+
+        <p class="demo-note">Demo: any credentials work</p>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const userId   = document.getElementById('userId').value.trim();
+            const userName = document.getElementById('userName').value.trim();
+
+            if (!userId) { showError('Please enter a User ID'); return; }
+
+            fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    user_id  : userId,
+                    user_name: userName || 'User ' + userId,
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    localStorage.setItem('currentUser', JSON.stringify({
+                        id  : userId,
+                        name: userName || 'User ' + userId,
+                    }));
+                    window.location.href = '/dashboard';
+                } else {
+                    showError(data.error || 'Login failed');
+                }
+            })
+            .catch(() => showError('Connection error. Please try again.'));
+        });
+
+        function showError(msg) {
+            const el = document.getElementById('errorMsg');
+            el.textContent = msg;
+            el.style.display = 'block';
+            setTimeout(() => { el.style.display = 'none'; }, 3000);
+        }
+    </script>
+</body>
+</html>

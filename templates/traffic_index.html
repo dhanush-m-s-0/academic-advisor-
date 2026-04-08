@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Analyzer — Dashboard</title>
+    <link rel="stylesheet" href="/static/traffic_style.css">
+</head>
+<body>
+    <div class="ta-container">
+        <!-- Sidebar -->
+        <div class="ta-sidebar">
+            <div class="sidebar-header">
+                <div class="traffic-lights-sm">
+                    <span class="dot red"></span>
+                    <span class="dot amber"></span>
+                    <span class="dot green"></span>
+                </div>
+                <h2>Traffic Analyzer</h2>
+                <p class="powered-by">Groq · Llama 3.3 70B</p>
+            </div>
+
+            <!-- Role Cards -->
+            <div class="role-list">
+                <div class="role-card active" data-role="traffic_flow">
+                    <span class="role-emoji">🚦</span>
+                    <span class="role-name">Traffic Flow</span>
+                </div>
+                <div class="role-card" data-role="route_planning">
+                    <span class="role-emoji">🛣️</span>
+                    <span class="role-name">Route Planning</span>
+                </div>
+                <div class="role-card" data-role="incident_safety">
+                    <span class="role-emoji">🚧</span>
+                    <span class="role-name">Incident & Safety</span>
+                </div>
+                <div class="role-card" data-role="traffic_data">
+                    <span class="role-emoji">📊</span>
+                    <span class="role-name">Data & Statistics</span>
+                </div>
+                <div class="role-card" data-role="infrastructure">
+                    <span class="role-emoji">🏗️</span>
+                    <span class="role-name">Infrastructure</span>
+                </div>
+                <div class="role-card" data-role="environmental">
+                    <span class="role-emoji">🌿</span>
+                    <span class="role-name">Environmental</span>
+                </div>
+            </div>
+
+            <!-- Profile section -->
+            <div class="profile-section">
+                <h4>Your Profile</h4>
+                <div id="profileInfo" class="profile-info">
+                    <span class="profile-placeholder">Ask a question to build your profile</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Queries</span>
+                    <span class="stat-value" id="queryCount">0</span>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="user-info" id="userInfo">Guest</div>
+                <button class="btn-logout" id="logoutBtn">Sign Out</button>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="ta-main">
+            <!-- Header bar -->
+            <div class="ta-header">
+                <div class="header-left">
+                    <h1>Traffic Analyzer</h1>
+                    <span class="current-role-badge" id="currentRoleBadge">
+                        🚦 Traffic Flow Analysis
+                    </span>
+                </div>
+                <div class="header-right">
+                    <button class="btn-report" id="reportBtn">📄 Session Report</button>
+                </div>
+            </div>
+
+            <!-- Suggestion chips -->
+            <div class="suggestion-chips" id="suggestionChips">
+                <span class="chip" data-msg="What causes peak hour congestion in Bangalore?">Bangalore congestion</span>
+                <span class="chip" data-msg="Best route from Silk Board to Electronic City?">Best route</span>
+                <span class="chip" data-msg="What are the most dangerous roads in India?">Dangerous roads</span>
+                <span class="chip" data-msg="How many vehicles are registered in Delhi?">Delhi vehicle count</span>
+                <span class="chip" data-msg="How to reduce traffic pollution in Indian cities?">Reduce pollution</span>
+                <span class="chip" data-msg="What is Level of Service in traffic engineering?">Level of Service</span>
+            </div>
+
+            <!-- Chat area -->
+            <div class="chat-area" id="chatArea">
+                <div class="welcome-msg">
+                    <div class="welcome-icon">🚦</div>
+                    <h2>Welcome to Traffic Analyzer</h2>
+                    <p>Ask me anything about traffic — congestion, routes, safety, data, infrastructure, or environmental impact. I'm powered by Groq Llama 3.3 70B with expert traffic knowledge for Indian cities.</p>
+                </div>
+            </div>
+
+            <!-- Input area -->
+            <div class="input-area">
+                <div class="input-wrapper">
+                    <textarea
+                        id="messageInput"
+                        placeholder="Ask about traffic congestion, routes, accidents, data, infrastructure, or emissions…"
+                        rows="1"
+                    ></textarea>
+                    <button class="btn-send" id="sendBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </div>
+                <p class="input-hint">Press <kbd>Enter</kbd> to send · <kbd>Shift+Enter</kbd> for new line</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Modal -->
+    <div class="modal-overlay" id="reportModal" style="display:none;">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>📄 Session Report</h3>
+                <button class="modal-close" id="closeReport">✕</button>
+            </div>
+            <div class="modal-body" id="reportContent">
+                <div class="loading-spinner">Generating report…</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/traffic_script.js"></script>
+</body>
+</html>

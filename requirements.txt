@@ -12,3 +12,5 @@ lxml
 python-dotenv
 flask
 flask-cors
+langchain-groq
+groq
