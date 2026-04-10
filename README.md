@@ -154,3 +154,26 @@ StudentProfile          Pinecone Vector DB
 | `stats` | Show Pinecone index stats |
 | `help` | Show command menu |
 | `quit` | Exit |
+
+---
+
+## Figures
+
+Run the figure-generation script to produce all 6 documentation diagrams:
+
+```bash
+python generate_figures.py
+```
+
+Figures are saved to the `figures/` directory at 200 DPI.
+
+| File | Description |
+|---|---|
+| `figures/figure1_roles_architecture.png` | Hub-spoke diagram of the 7 advisor roles |
+| `figures/figure2_role_detection_flowchart.png` | Flowchart of the `detect_role()` algorithm |
+| `figures/figure3_rag_pipeline.png` | End-to-end RAG pipeline design |
+| `figures/figure4_performance_metrics.png` | Illustrative 2×2 performance metrics panel |
+| `figures/figure5_routing_accuracy.png` | Query routing accuracy comparison across 4 approaches |
+| `figures/figure6_quality_ratings.png` | Student satisfaction ratings by advisor role |
+
+> **Note:** Figures 4–6 contain illustrative/representative data for documentation purposes.
